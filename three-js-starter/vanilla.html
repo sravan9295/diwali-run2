@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Three.js Starter - Vanilla</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #000;
+        color: #fff;
+        overflow: hidden;
+      }
+      
+      #app {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+      }
+      
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .overlay {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .overlay h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #00ff88;
+      }
+      
+      .overlay p {
+        font-size: 14px;
+        opacity: 0.8;
+        margin-bottom: 5px;
+      }
+      
+      .fps-counter {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px;
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 12px;
+      }
+      
+      @media (max-width: 768px) {
+        .overlay {
+          top: 10px;
+          left: 10px;
+          right: 10px;
+          padding: 15px;
+        }
+        
+        .overlay h1 {
+          font-size: 20px;
+        }
+        
+        .fps-counter {
+          top: 10px;
+          right: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="overlay">
+        <h1>Three.js Starter</h1>
+        <p>Vanilla TypeScript Implementation</p>
+        <p>Click the TorusKnot to interact!</p>
+      </div>
+      <div class="fps-counter" id="fps-counter">FPS: --</div>
+    </div>
+    
+    <script type="module" src="/src/vanilla/main.ts"></script>
+    <script>
+      // FPS counter update
+      setInterval(() => {
+        if (window.threeApp) {
+          document.getElementById('fps-counter').textContent = `FPS: ${window.threeApp.getFPS()}`;
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>
