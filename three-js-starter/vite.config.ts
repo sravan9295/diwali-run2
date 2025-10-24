@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000,
     open: true,
     hmr: true,
-    host: true
+    host: true,
   },
 
   // Build optimization
@@ -20,14 +20,14 @@ export default defineConfig({
     rollupOptions: {
       input: {
         vanilla: resolve(__dirname, 'vanilla.html'),
-        react: resolve(__dirname, 'react.html')
+        react: resolve(__dirname, 'react.html'),
       },
       output: {
         manualChunks: {
-          'three': ['three']
-        }
-      }
-    }
+          three: ['three'],
+        },
+      },
+    },
   },
 
   // Path resolution
@@ -36,8 +36,8 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
       '@/vanilla': resolve(__dirname, 'src/vanilla'),
       '@/react': resolve(__dirname, 'src/react'),
-      '@/shared': resolve(__dirname, 'src/shared')
-    }
+      '@/shared': resolve(__dirname, 'src/shared'),
+    },
   },
 
   // Asset handling
@@ -45,6 +45,6 @@ export default defineConfig({
 
   // Define global constants
   define: {
-    __DEV__: JSON.stringify(process.env.NODE_ENV === 'development')
-  }
+    __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+  },
 })

@@ -45,6 +45,11 @@ body {
   font-weight: 700;
   line-height: 1.2;
   pointer-events: auto;
+  background: linear-gradient(45deg, #00ff88, #ffdd00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
 }
 
 .description {
@@ -64,32 +69,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 12px;
   margin-top: 12px;
   pointer-events: auto;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 12px 20px;
+  border-radius: 25px;
 }
 
-.counter-button {
-  background-color: #ff4500;
-  color: #ffffff;
-  border: none;
-  width: 60px;
-  height: 60px;
-  font-size: 2rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.counter-button:hover {
-  background-color: #d93900;
+.counter-label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #d1d5db;
 }
 
 .counter-value {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
   min-width: 60px;
   text-align: center;
+  color: #00ff88;
 }
 
 /* Footer links */

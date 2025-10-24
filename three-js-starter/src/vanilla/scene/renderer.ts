@@ -7,9 +7,13 @@ import { RendererConfig } from '@/shared/types'
  * @param config - Renderer configuration options
  * @returns Configured WebGL renderer
  */
-export function makeRenderer(container: HTMLElement, config: RendererConfig): THREE.WebGLRenderer {
-  const canvas = container.querySelector('canvas') || document.createElement('canvas')
-  
+export function makeRenderer(
+  container: HTMLElement,
+  config: RendererConfig
+): THREE.WebGLRenderer {
+  const canvas =
+    container.querySelector('canvas') || document.createElement('canvas')
+
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: config.antialias,
@@ -18,23 +22,26 @@ export function makeRenderer(container: HTMLElement, config: RendererConfig): TH
   })
 
   // Cap pixel ratio for mobile performance
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, config.maxPixelRatio)
+  const pixelRatio = Math.min(
+    window.devicePixelRatio || 1,
+    config.maxPixelRatio
+  )
   renderer.setPixelRatio(pixelRatio)
-  
+
   // Set initial size
   const { clientWidth, clientHeight } = container
   renderer.setSize(clientWidth, clientHeight)
-  
+
   // Configure renderer settings
   renderer.setClearColor(0x000000, 1)
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = THREE.PCFSoftShadowMap
-  
+
   // Append canvas if not already in container
   if (!container.contains(canvas)) {
     container.appendChild(canvas)
   }
-  
+
   return renderer
 }
 

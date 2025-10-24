@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪔 Diwali Night Runner - Enhanced Version</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .overlay {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            padding: 0 16px;
+            pointer-events: none;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            pointer-events: auto;
+            background: linear-gradient(45deg, #ff6b35, #ffaa00, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            }
+
+            to {
+                text-shadow: 0 0 40px rgba(255, 107, 53, 0.8), 0 0 60px rgba(255, 170, 0, 0.4);
+            }
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: #d1d5db;
+            pointer-events: auto;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .counter-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 12px;
+            pointer-events: auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .counter-label {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #d1d5db;
+        }
+
+        .counter-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            min-width: 60px;
+            text-align: center;
+            color: #ff6b35;
+        }
+
+        .features {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        .feature {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: #d1d5db;
+            pointer-events: auto;
+        }
+
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 107, 53, 0.3);
+            border-top: 4px solid #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: #ff6b35;
+            margin-bottom: 10px;
+        }
+
+        .loading-progress {
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        /* Game UI Styles */
+        #game-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            z-index: 100;
+            display: none;
+        }
+
+        .game-stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .game-button {
+            background: linear-gradient(45deg, #ff6b35, #ffaa00);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+        }
+
+        .game-button.pause {
+            background: linear-gradient(45deg, #ffaa00, #ff1493);
+        }
+
+        .instructions-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            pointer-events: auto;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .instructions-screen h2 {
+            color: #ff6b35;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .game-over-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            pointer-events: auto;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .mobile-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            display: none;
+            pointer-events: auto;
+        }
+
+        .jump-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px dashed rgba(255, 107, 53, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .move-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            display: flex;
+        }
+
+        .left-area,
+        .right-area {
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 170, 0, 0.1);
+            border: 2px dashed rgba(255, 170, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: block;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">🪔 Loading Diwali Assets...</div>
+        <div id="loading-progress" class="loading-progress">Initializing...</div>
+    </div>
+
+    <canvas id="bg"></canvas>
+    <div class="overlay" id="main-overlay">
+        <h1 class="title" id="title">🪔 Diwali Night Runner</h1>
+        <p class="description">
+            Experience the magic of Diwali in this enchanting 3D endless runner!
+            Collect diyas, avoid obstacles, and celebrate the festival of lights with stunning visual effects.
+        </p>
+
+        <div class="features">
+            <div class="feature">🎆 Firework Particles</div>
+            <div class="feature">🪔 Cultural Pickups</div>
+            <div class="feature">✨ Sparkler Trails</div>
+            <div class="feature">🌃 Night Skyline</div>
+        </div>
+
+        <div class="counter-row">
+            <span class="counter-label">🏆 High Score:</span>
+            <span class="counter-value" id="counter-value">0</span>
+        </div>
+
+        <div class="footer">
+            <span>Enhanced Asset System • Diwali Theme • Performance Optimized</span>
+        </div>
+    </div>
+
+    <!-- Game UI -->
+    <div id="game-ui">
+        <div class="game-stats">
+            <div id="score-display">🎆 Score: 0</div>
+            <div id="lives-display">❤️ Lives: 3</div>
+            <div id="speed-display">⚡ Speed: 10</div>
+        </div>
+
+        <div class="game-buttons">
+            <button id="start-button" class="game-button">🎮 Start Game</button>
+            <button id="pause-button" class="game-button pause" style="display: none;">⏸️ Pause</button>
+        </div>
+
+        <div id="instructions-screen" class="instructions-screen">
+            <h2>🪔 Diwali Night Runner</h2>
+            <div style="margin-bottom: 20px; line-height: 1.6;">
+                <p><strong>Desktop Controls:</strong></p>
+                <p>↑ or Space: Jump</p>
+                <p>← or A: Move Left</p>
+                <p>→ or D: Move Right</p>
+                <br>
+                <p><strong>Mobile Controls:</strong></p>
+                <p>Tap top half: Jump</p>
+                <p>Tap bottom left: Move Left</p>
+                <p>Tap bottom right: Move Right</p>
+                <br>
+                <p><strong>🎆 Diwali Collectibles:</strong></p>
+                <p>🪔 Diya: Heals +25 points</p>
+                <p>✨ Phooljhadi: Speed boost +15 points</p>
+                <p>🌸 Rangoli: Shield protection +30 points</p>
+                <p>🪙 Coins: Standard +10 points</p>
+                <br>
+                <p>Avoid obstacles and celebrate Diwali!</p>
+            </div>
+        </div>
+
+        <div id="game-over-screen" class="game-over-screen">
+            <h2>🎆 Game Over!</h2>
+            <h3 id="final-score" style="color: #ffaa00;">Final Score: 0</h3>
+            <button id="restart-button" class="game-button">🔄 Play Again</button>
+        </div>
+
+        <div class="mobile-controls">
+            <div class="jump-area">🪔 TAP TO JUMP</div>
+            <div class="move-area">
+                <div class="left-area">← LEFT</div>
+                <div class="right-area">RIGHT →</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.169.0/build/three.module.js"
+        }
+    }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        // Enhanced Game State with Diwali theme
+        let gameState = {
+            isPlaying: false,
+            isPaused: false,
+            score: 0,
+            speed: 10,
+            lives: 3,
+            gameOver: false,
+            theme: 'diwali-night',
+            highScore: parseInt(localStorage.getItem('diwaliRunnerHighScore') || '0'),
+            initialized: false
+        };
+
+        // Asset Management System (Simplified for local version)
+        class SimpleAssetManager {
+            constructor() {
+                this.loadedAssets = new Map();
+                this.profile = this.detectProfile();
+            }
+
+            detectProfile() {
+                const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                const memory = navigator.deviceMemory || 4;
+
+                if (isMobile || memory < 4) return 'low-end';
+                if (memory >= 8) return 'high-end';
+                return 'mid-range';
+            }
+
+            getParticleCount(base) {
+                const multipliers = { 'low-end': 0.5, 'mid-range': 1.0, 'high-end': 2.0 };
+                return Math.floor(base * multipliers[this.profile]);
+            }
+
+            shouldUseFeature(feature) {
+                const features = {
+                    'low-end': { bloom: false, shadows: false, particles: true },
+                    'mid-range': { bloom: true, shadows: true, particles: true },
+                    'high-end': { bloom: true, shadows: true, particles: true }
+                };
+                return features[this.profile][feature] || false;
+            }
+        }
+
+        const assetManager = new SimpleAssetManager();
+        console.log(`🎮 Performance Profile: ${assetManager.profile}`);
+
+        // Three.js Setup with Diwali Theme
+        const canvas = document.getElementById('bg');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e); // Dark night sky
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 3, 8);
+        camera.lookAt(0, 1, 0);
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            antialias: assetManager.shouldUseFeature('shadows'),
+            alpha: false
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = assetManager.shouldUseFeature('shadows');
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        // Diwali Lighting Setup
+        const ambientLight = new THREE.AmbientLight(0x2a1810, 0.3); // Warm ambient
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xff6b35, 0.8); // Warm directional
+        directionalLight.position.set(5, 10, 5);
+        directionalLight.castShadow = assetManager.shouldUseFeature('shadows');
+        scene.add(directionalLight);
+
+        // Add diya point lights for atmosphere
+        const diyaLights = [];
+        for (let i = 0; i < 5; i++) {
+            const light = new THREE.PointLight(0xffaa00, 0.5, 8);
+            light.position.set((i - 2) * 4, 1, -10 - i * 5);
+            scene.add(light);
+            diyaLights.push(light);
+        }
+
+        // Animate diya lights
+        function animateDiyaLights() {
+            const time = Date.now() * 0.001;
+            diyaLights.forEach((light, index) => {
+                const flicker = 0.3 + 0.2 * Math.sin(time * 3 + index * Math.PI);
+                light.intensity = flicker;
+            });
+        }
+
+        // Game Objects
+        let player, obstacles = [], collectibles = [];
+        let spawnTimer = 0, spawnInterval = 2;
+        let particleSystems = [];
+
+        // Enhanced Player with Diwali Effects
+        class DiwaliPlayer {
+            constructor() {
+                const geometry = new THREE.CapsuleGeometry(0.3, 1.2, 4, 8);
+                const material = new THREE.MeshStandardMaterial({
+                    color: 0xff6b35,
+                    emissive: 0x331100,
+                    roughness: 0.3
+                });
+                this.mesh = new THREE.Mesh(geometry, material);
+                this.mesh.position.set(0, 1, 0);
+                this.mesh.castShadow = true;
+                this.velocity = new THREE.Vector3(0, 0, 0);
+                this.lanes = [-2, 0, 2];
+                this.currentLane = 1;
+                this.targetX = 0;
+                this.isGrounded = true;
+
+                this.createTrailEffect();
+                scene.add(this.mesh);
+            }
+
+            createTrailEffect() {
+                if (!assetManager.shouldUseFeature('particles')) return;
+
+                const particleCount = assetManager.getParticleCount(20);
+                const geometry = new THREE.BufferGeometry();
+                const positions = new Float32Array(particleCount * 3);
+                const colors = new Float32Array(particleCount * 3);
+
+                for (let i = 0; i < particleCount; i++) {
+                    const i3 = i * 3;
+                    positions[i3] = 0;
+                    positions[i3 + 1] = 0;
+                    positions[i3 + 2] = 0;
+
+                    // Golden sparkler colors
+                    colors[i3] = 1.0;
+                    colors[i3 + 1] = 0.8;
+                    colors[i3 + 2] = 0.2;
+                }
+
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+                const material = new THREE.PointsMaterial({
+                    size: 2,
+                    vertexColors: true,
+                    transparent: true,
+                    opacity: 0.8,
+                    blending: THREE.AdditiveBlending
+                });
+
+                this.trailParticles = new THREE.Points(geometry, material);
+                this.mesh.add(this.trailParticles);
+            }
+
+            jump() {
+                if (this.isGrounded) {
+                    this.velocity.y = 15;
+                    this.isGrounded = false;
+                    this.createJumpEffect();
+                }
+            }
+
+            createJumpEffect() {
+                if (!assetManager.shouldUseFeature('particles')) return;
+
+                const sparkleCount = assetManager.getParticleCount(10);
+                const geometry = new THREE.BufferGeometry();
+                const positions = new Float32Array(sparkleCount * 3);
+
+                for (let i = 0; i < sparkleCount; i++) {
+                    const i3 = i * 3;
+                    positions[i3] = (Math.random() - 0.5) * 2;
+                    positions[i3 + 1] = Math.random() * 0.5;
+                    positions[i3 + 2] = (Math.random() - 0.5) * 2;
+                }
+
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+                const material = new THREE.PointsMaterial({
+                    size: 3,
+                    color: 0xffaa00,
+                    transparent: true,
+                    opacity: 1.0,
+                    blending: THREE.AdditiveBlending
+                });
+
+                const sparkles = new THREE.Points(geometry, material);
+                sparkles.position.copy(this.mesh.position);
+                scene.add(sparkles);
+
+                // Animate sparkles
+                let opacity = 1.0;
+                const animate = () => {
+                    opacity -= 0.05;
+                    material.opacity = opacity;
+                    sparkles.position.y += 0.1;
+
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        scene.remove(sparkles);
+                        geometry.dispose();
+                        material.dispose();
+                    }
+                };
+                animate();
+            }
+
+            moveLeft() {
+                if (this.currentLane > 0) {
+                    this.currentLane--;
+                    this.targetX = this.lanes[this.currentLane];
+                }
+            }
+
+            moveRight() {
+                if (this.currentLane < this.lanes.length - 1) {
+                    this.currentLane++;
+                    this.targetX = this.lanes[this.currentLane];
+                }
+            }
+
+            update(deltaTime) {
+                // Lane switching
+                const dx = this.targetX - this.mesh.position.x;
+                if (Math.abs(dx) > 0.1) {
+                    this.mesh.position.x += dx * 8 * deltaTime;
+                } else {
+                    this.mesh.position.x = this.targetX;
+                }
+
+                // Gravity and jumping
+                if (!this.isGrounded) {
+                    this.velocity.y += -50 * deltaTime;
+                    this.mesh.position.y += this.velocity.y * deltaTime;
+
+                    if (this.mesh.position.y <= 0.6) {
+                        this.mesh.position.y = 0.6;
+                        this.velocity.y = 0;
+                        this.isGrounded = true;
+                    }
+                }
+
+                // Running animation
+                this.mesh.rotation.z = Math.sin(Date.now() * 0.01) * 0.1;
+
+                // Update trail particles
+                if (this.trailParticles) {
+                    const positions = this.trailParticles.geometry.attributes.position.array;
+                    const time = Date.now() * 0.001;
+
+                    for (let i = 0; i < positions.length; i += 3) {
+                        positions[i] = Math.sin(time + i) * 0.3;
+                        positions[i + 1] = Math.cos(time + i) * 0.2 - 0.5;
+                        positions[i + 2] = Math.sin(time * 2 + i) * 0.2 - 1;
+                    }
+
+                    this.trailParticles.geometry.attributes.position.needsUpdate = true;
+                }
+            }
+        }
+
+        // Diwali Obstacle
+        class DiwaliObstacle {
+            constructor(lane, z) {
+                const geometry = new THREE.BoxGeometry(0.8, 1.5, 0.8);
+                const material = new THREE.MeshStandardMaterial({
+                    color: 0x8b0000,
+                    emissive: 0x330000,
+                    roughness: 0.4
+                });
+                this.mesh = new THREE.Mesh(geometry, material);
+                this.mesh.position.set([-2, 0, 2][lane], 0.75, z);
+                this.mesh.castShadow = true;
+                this.velocity = new THREE.Vector3(0, 0, gameState.speed);
+
+                // Add glow effect
+                const light = new THREE.PointLight(0xff4444, 0.5, 3);
+                light.position.set(0, 0.5, 0);
+                this.mesh.add(light);
+                this.glowLight = light;
+
+                scene.add(this.mesh);
+            }
+
+            update(deltaTime) {
+                this.mesh.position.z += this.velocity.z * deltaTime;
+                this.mesh.rotation.y += 2 * deltaTime;
+
+                // Animate glow
+                this.glowLight.intensity = 0.3 + 0.2 * Math.sin(Date.now() * 0.005);
+            }
+
+            dispose() {
+                scene.remove(this.mesh);
+            }
+        }
+
+        // Diwali Collectible
+        class DiwaliCollectible {
+            constructor(lane, z, type = null) {
+                const types = ['coin', 'diya', 'phooljhadi', 'rangoli'];
+                this.type = type || types[Math.floor(Math.random() * types.length)];
+
+                let geometry, material;
+
+                switch (this.type) {
+                    case 'diya':
+                        geometry = new THREE.CylinderGeometry(0.2, 0.3, 0.15, 8);
+                        material = new THREE.MeshStandardMaterial({
+                            color: 0xffaa00,
+                            emissive: 0x442200,
+                            roughness: 0.3
+                        });
+                        break;
+                    case 'phooljhadi':
+                        geometry = new THREE.ConeGeometry(0.05, 0.8, 6);
+                        material = new THREE.MeshStandardMaterial({
+                            color: 0xff6b35,
+                            emissive: 0x331100,
+                            roughness: 0.2
+                        });
+                        break;
+                    case 'rangoli':
+                        geometry = new THREE.RingGeometry(0.2, 0.4, 8);
+                        material = new THREE.MeshStandardMaterial({
+                            color: 0xff1493,
+                            emissive: 0x330033,
+                            transparent: true,
+                            opacity: 0.8
+                        });
+                        break;
+                    default: // coin
+                        geometry = new THREE.SphereGeometry(0.3, 8, 6);
+                        material = new THREE.MeshStandardMaterial({
+                            color: 0xffdd00,
+                            emissive: 0x443300,
+                            metalness: 0.8,
+                            roughness: 0.2
+                        });
+                }
+
+                this.mesh = new THREE.Mesh(geometry, material);
+                this.mesh.position.set([-2, 0, 2][lane], 1, z);
+                this.velocity = new THREE.Vector3(0, 0, gameState.speed);
+
+                // Add glow effect
+                const glowColors = {
+                    coin: 0xffdd00,
+                    diya: 0xffaa00,
+                    phooljhadi: 0xff6b35,
+                    rangoli: 0xff1493
+                };
+
+                const light = new THREE.PointLight(glowColors[this.type], 0.8, 4);
+                this.mesh.add(light);
+                this.glowLight = light;
+
+                scene.add(this.mesh);
+            }
+
+            update(deltaTime) {
+                this.mesh.position.z += this.velocity.z * deltaTime;
+                this.mesh.position.y = 1 + Math.sin(Date.now() * 0.005 + this.mesh.position.z) * 0.2;
+                this.mesh.rotation.y += 3 * deltaTime;
+
+                // Special animations
+                switch (this.type) {
+                    case 'diya':
+                        this.glowLight.intensity = 0.6 + 0.2 * Math.sin(Date.now() * 0.008);
+                        break;
+                    case 'phooljhadi':
+                        this.mesh.rotation.z += 5 * deltaTime;
+                        break;
+                    case 'rangoli':
+                        const scale = 1 + 0.1 * Math.sin(Date.now() * 0.01);
+                        this.mesh.scale.setScalar(scale);
+                        break;
+                }
+            }
+
+            getValue() {
+                const values = { coin: 10, diya: 25, phooljhadi: 15, rangoli: 30 };
+                return values[this.type] || 10;
+            }
+
+            dispose() {
+                scene.remove(this.mesh);
+            }
+        }
+
+        // Create Diwali-themed Ground
+        function createDiwaliGround() {
+            // Ground plane with night texture
+            const groundGeometry = new THREE.PlaneGeometry(20, 100);
+            const groundMaterial = new THREE.MeshStandardMaterial({
+                color: 0x2a1810,
+                roughness: 0.8
+            });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = 0;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // Golden lane markers
+            for (let i = 0; i < 4; i++) {
+                const lineGeometry = new THREE.BoxGeometry(0.1, 0.01, 100);
+                const lineMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xffaa00,
+                    emissive: 0x221100
+                });
+                const line = new THREE.Mesh(lineGeometry, lineMaterial);
+                line.position.set(-3 + i * 2, 0.01, 0);
+                scene.add(line);
+            }
+
+            // Add decorative diyas along the path
+            for (let i = 0; i < 20; i++) {
+                const z = -50 + i * 5;
+
+                // Left side diya
+                const leftDiya = new THREE.CylinderGeometry(0.1, 0.15, 0.08, 6);
+                const diyaMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xffaa00,
+                    emissive: 0x442200
+                });
+                const leftMesh = new THREE.Mesh(leftDiya, diyaMaterial);
+                leftMesh.position.set(-4, 0.05, z);
+                leftMesh.scale.setScalar(0.5);
+                scene.add(leftMesh);
+
+                // Right side diya
+                const rightMesh = leftMesh.clone();
+                rightMesh.position.set(4, 0.05, z);
+                scene.add(rightMesh);
+            }
+        }
+
+        // Initialize Game
+        async function initGame() {
+            // Show loading screen
+            document.getElementById('loading-screen').style.display = 'flex';
+
+            // Simulate asset loading
+            const loadingSteps = [
+                'Loading Diwali Theme...',
+                'Creating Particle Systems...',
+                'Setting up Lighting...',
+                'Optimizing Performance...',
+                'Ready to Play!'
+            ];
+
+            for (let i = 0; i < loadingSteps.length; i++) {
+                document.getElementById('loading-progress').textContent = loadingSteps[i];
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            // Create game world
+            createDiwaliGround();
+            player = new DiwaliPlayer();
+
+            // Hide loading screen
+            document.getElementById('loading-screen').style.display = 'none';
+
+            // Update UI
+            updateUI();
+            document.getElementById('counter-value').textContent = gameState.highScore;
+
+            console.log('🪔 Diwali Night Runner initialized!');
+        }
+
+        // Game Functions
+        function startGame() {
+            gameState.isPlaying = true;
+            gameState.isPaused = false;
+            gameState.gameOver = false;
+            gameState.score = 0;
+            gameState.speed = 10;
+            gameState.lives = 3;
+            spawnTimer = 0;
+            spawnInterval = 2;
+
+            // Clear objects
+            obstacles.forEach(obs => obs.dispose());
+            collectibles.forEach(col => col.dispose());
+            obstacles = [];
+            collectibles = [];
+
+            // Show game UI
+            document.getElementById('main-overlay').style.display = 'none';
+            document.getElementById('game-ui').style.display = 'block';
+            document.getElementById('instructions-screen').style.display = 'none';
+            document.getElementById('start-button').style.display = 'none';
+            document.getElementById('pause-button').style.display = 'block';
+
+            updateUI();
+            console.log('🎆 Game Started!');
+        }
+
+        function pauseGame() {
+            gameState.isPaused = !gameState.isPaused;
+            document.getElementById('pause-button').textContent = gameState.isPaused ? '▶️ Resume' : '⏸️ Pause';
+        }
+
+        function gameOver() {
+            gameState.gameOver = true;
+            gameState.isPlaying = false;
+
+            // Update high score
+            if (gameState.score > gameState.highScore) {
+                gameState.highScore = gameState.score;
+                localStorage.setItem('diwaliRunnerHighScore', gameState.highScore.toString());
+                document.getElementById('counter-value').textContent = gameState.highScore;
+            }
+
+            // Show game over screen
+            document.getElementById('final-score').textContent = `Final Score: ${gameState.score}`;
+            document.getElementById('game-over-screen').style.display = 'block';
+            document.getElementById('pause-button').style.display = 'none';
+
+            console.log('🎆 Game Over! Final Score:', gameState.score);
+        }
+
+        function spawnObjects() {
+            const lanes = [0, 1, 2];
+            const availableLanes = [...lanes];
+
+            // Spawn obstacles (fewer for better gameplay)
+            const obstacleCount = Math.random() < 0.6 ? 1 : 2;
+            for (let i = 0; i < obstacleCount && availableLanes.length > 0; i++) {
+                const laneIndex = Math.floor(Math.random() * availableLanes.length);
+                const lane = availableLanes.splice(laneIndex, 1)[0];
+                obstacles.push(new DiwaliObstacle(lane, -50));
+            }
+
+            // Spawn Diwali collectibles
+            availableLanes.forEach(lane => {
+                if (Math.random() < 0.7) {
+                    collectibles.push(new DiwaliCollectible(lane, -50));
+                }
+            });
+        }
+
+        function checkCollisions() {
+            const playerPos = player.mesh.position;
+
+            // Check obstacles
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                const obstacle = obstacles[i];
+                const distance = playerPos.distanceTo(obstacle.mesh.position);
+
+                if (distance < 1) {
+                    gameState.lives--;
+                    obstacle.dispose();
+                    obstacles.splice(i, 1);
+
+                    if (gameState.lives <= 0) {
+                        gameOver();
+                        return;
+                    }
+                }
+            }
+
+            // Check collectibles
+            for (let i = collectibles.length - 1; i >= 0; i--) {
+                const collectible = collectibles[i];
+                const distance = playerPos.distanceTo(collectible.mesh.position);
+
+                if (distance < 0.8) {
+                    gameState.score += collectible.getValue();
+                    collectible.dispose();
+                    collectibles.splice(i, 1);
+                }
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('score-display').textContent = `🎆 Score: ${gameState.score}`;
+            document.getElementById('lives-display').textContent = `❤️ Lives: ${gameState.lives}`;
+            document.getElementById('speed-display').textContent = `⚡ Speed: ${Math.floor(gameState.speed)}`;
+        }
+
+        // Controls
+        function setupControls() {
+            // Keyboard
+            document.addEventListener('keydown', (event) => {
+                if (!gameState.isPlaying || gameState.isPaused) return;
+
+                switch (event.code) {
+                    case 'Space':
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        player.jump();
+                        break;
+                    case 'ArrowLeft':
+                    case 'KeyA':
+                        event.preventDefault();
+                        player.moveLeft();
+                        break;
+                    case 'ArrowRight':
+                    case 'KeyD':
+                        event.preventDefault();
+                        player.moveRight();
+                        break;
+                }
+            });
+
+            // Touch controls
+            document.addEventListener('touchstart', (event) => {
+                if (!gameState.isPlaying || gameState.isPaused) return;
+
+                event.preventDefault();
+                const touch = event.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                if (y < centerY) {
+                    player.jump();
+                } else {
+                    if (x < centerX) {
+                        player.moveLeft();
+                    } else {
+                        player.moveRight();
+                    }
+                }
+            });
+
+            // UI Buttons
+            document.getElementById('start-button').addEventListener('click', startGame);
+            document.getElementById('pause-button').addEventListener('click', pauseGame);
+            document.getElementById('restart-button').addEventListener('click', () => {
+                document.getElementById('game-over-screen').style.display = 'none';
+                startGame();
+            });
+        }
+
+        // Game Loop
+        let lastTime = 0;
+        function animate(currentTime) {
+            requestAnimationFrame(animate);
+
+            const deltaTime = (currentTime - lastTime) / 1000;
+            lastTime = currentTime;
+
+            // Always animate diya lights for atmosphere
+            animateDiyaLights();
+
+            if (gameState.isPlaying && !gameState.isPaused && !gameState.gameOver) {
+                // Update player
+                player.update(deltaTime);
+
+                // Update obstacles
+                obstacles.forEach((obstacle, index) => {
+                    obstacle.update(deltaTime);
+                    if (obstacle.mesh.position.z > 10) {
+                        obstacle.dispose();
+                        obstacles.splice(index, 1);
+                    }
+                });
+
+                // Update collectibles
+                collectibles.forEach((collectible, index) => {
+                    collectible.update(deltaTime);
+                    if (collectible.mesh.position.z > 10) {
+                        collectible.dispose();
+                        collectibles.splice(index, 1);
+                    }
+                });
+
+                // Spawn objects
+                spawnTimer += deltaTime;
+                if (spawnTimer >= spawnInterval) {
+                    spawnObjects();
+                    spawnTimer = 0;
+                    gameState.speed += 0.1;
+                    spawnInterval = Math.max(1.2, spawnInterval - 0.02);
+                }
+
+                // Check collisions
+                checkCollisions();
+
+                // Update score
+                gameState.score += Math.floor(deltaTime * 5);
+
+                // Update UI
+                updateUI();
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Resize handler
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onWindowResize);
+
+        // Initialize everything
+        async function init() {
+            await initGame();
+            setupControls();
+            animate(performance.now());
+            console.log('🪔 Diwali Night Runner ready to play!');
+        }
+
+        // Start initialization
+        init();
+    </script>
+</body>
+
+</html>
+
+</html>

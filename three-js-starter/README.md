@@ -50,7 +50,7 @@ three-js-starter/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
@@ -67,6 +67,7 @@ npm run dev
 ```
 
 This will start the Vite dev server and open both implementations:
+
 - **Vanilla**: http://localhost:3000/vanilla.html
 - **React**: http://localhost:3000/react.html
 
@@ -85,6 +86,7 @@ await app.init(container)
 ```
 
 **Key Features:**
+
 - Modular scene management (renderer, scene, camera)
 - Performance-optimized render loop with delta time clamping
 - ResizeObserver-based responsive handling
@@ -109,6 +111,7 @@ function App() {
 ```
 
 **Key Features:**
+
 - Declarative 3D scene creation with JSX
 - React hooks for responsive handling
 - Component-based architecture
@@ -227,6 +230,7 @@ npm run build
 ```
 
 The build process:
+
 1. TypeScript compilation with strict checking
 2. Vite optimization with tree shaking
 3. Asset optimization and compression
@@ -249,19 +253,22 @@ dist/
 ### Common Issues
 
 **WebGL Context Lost**
+
 ```typescript
-renderer.context.addEventListener('webglcontextlost', (event) => {
+renderer.context.addEventListener('webglcontextlost', event => {
   event.preventDefault()
   console.warn('WebGL context lost')
 })
 ```
 
 **Performance Issues**
+
 - Check pixel ratio settings (should be capped at 2)
 - Monitor FPS counter for performance drops
 - Use browser dev tools for memory profiling
 
 **Mobile Compatibility**
+
 - Ensure touch events are properly handled
 - Test on various devices and orientations
 - Check for WebGL support

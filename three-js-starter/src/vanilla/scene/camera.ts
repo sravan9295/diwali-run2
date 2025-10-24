@@ -7,24 +7,27 @@ import { CameraConfig } from '@/shared/types'
  * @param config - Camera configuration options
  * @returns Configured perspective camera
  */
-export function makeCamera(aspect: number, config?: CameraConfig): THREE.PerspectiveCamera {
+export function makeCamera(
+  aspect: number,
+  config?: CameraConfig
+): THREE.PerspectiveCamera {
   const cameraConfig = config || {
     fov: 75,
     near: 0.1,
     far: 1000,
-    position: [0, 0, 5]
+    position: [0, 0, 5],
   }
-  
+
   const camera = new THREE.PerspectiveCamera(
     cameraConfig.fov,
     aspect,
     cameraConfig.near,
     cameraConfig.far
   )
-  
+
   camera.position.set(...cameraConfig.position)
   camera.lookAt(0, 0, 0)
-  
+
   return camera
 }
 
@@ -55,27 +58,27 @@ export function animateCameraTo(
   targetPosition: [number, number, number],
   duration: number = 1000
 ): Promise<void> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const startPosition = camera.position.clone()
     const endPosition = new THREE.Vector3(...targetPosition)
     const startTime = Date.now()
-    
+
     function animate() {
       const elapsed = Date.now() - startTime
       const progress = Math.min(elapsed / duration, 1)
-      
+
       // Smooth easing function
       const eased = 1 - Math.pow(1 - progress, 3)
-      
+
       camera.position.lerpVectors(startPosition, endPosition, eased)
-      
+
       if (progress < 1) {
         requestAnimationFrame(animate)
       } else {
         resolve()
       }
     }
-    
+
     animate()
   })
 }

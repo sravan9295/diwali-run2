@@ -2,7 +2,41 @@
   "mcpServers": {
     "devvit-mcp": {
       "command": "npx",
-      "args": ["-y", "@devvit/mcp"]
+      "args": [
+        "-y",
+        "@devvit/mcp"
+      ],
+      "disabled": true,
+      "autoApprove": []
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "new_page",
+        "navigate_page",
+        "list_pages",
+        "take_screenshot",
+        "list_console_messages",
+        "list_network_requests",
+        "take_snapshot",
+        "click"
+      ]
+    },
+    "frontend-mcp": {
+      "command": "uvx",
+      "args": [
+        "awslabs.frontend-mcp-server@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
     }
   }
 }

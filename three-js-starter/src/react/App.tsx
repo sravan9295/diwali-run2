@@ -27,7 +27,11 @@ export default function App() {
         dpr={Math.min(window.devicePixelRatio, 2)}
       >
         <Scene onObjectClick={handleObjectClick} />
-        <OrbitControls enablePan={false} enableZoom={true} enableRotate={true} />
+        <OrbitControls
+          enablePan={false}
+          enableZoom={true}
+          enableRotate={true}
+        />
         <Stats />
       </Canvas>
 
@@ -44,7 +48,8 @@ export default function App() {
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           color: 'white',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}
       >
         <h1 style={{ fontSize: 24, marginBottom: 10, color: '#00ff88' }}>
@@ -56,9 +61,7 @@ export default function App() {
         <p style={{ fontSize: 14, opacity: 0.8, marginBottom: 5 }}>
           Click the TorusKnot to interact!
         </p>
-        <p style={{ fontSize: 14, opacity: 0.8 }}>
-          Clicks: {clickCount}
-        </p>
+        <p style={{ fontSize: 14, opacity: 0.8 }}>Clicks: {clickCount}</p>
       </div>
 
       {/* Viewport info */}

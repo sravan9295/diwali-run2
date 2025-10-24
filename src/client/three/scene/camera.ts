@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import { CameraConfig } from '../types'
+import * as THREE from 'three';
+import { CameraConfig } from '../types';
 
 /**
  * Creates and configures a perspective camera
@@ -12,20 +12,20 @@ export function makeCamera(aspect: number, config?: CameraConfig): THREE.Perspec
     fov: 75,
     near: 0.1,
     far: 1000,
-    position: [0, 0, 5]
-  }
-  
+    position: [0, 0, 5],
+  };
+
   const camera = new THREE.PerspectiveCamera(
     cameraConfig.fov,
     aspect,
     cameraConfig.near,
     cameraConfig.far
-  )
-  
-  camera.position.set(...cameraConfig.position)
-  camera.lookAt(0, 0, 0)
-  
-  return camera
+  );
+
+  camera.position.set(...cameraConfig.position);
+  camera.lookAt(0, 0, 0);
+
+  return camera;
 }
 
 /**
@@ -39,8 +39,8 @@ export function updateCameraAspect(
   width: number,
   height: number
 ): void {
-  camera.aspect = width / height
-  camera.updateProjectionMatrix()
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
 }
 
 /**
@@ -56,26 +56,26 @@ export function animateCameraTo(
   duration: number = 1000
 ): Promise<void> {
   return new Promise((resolve) => {
-    const startPosition = camera.position.clone()
-    const endPosition = new THREE.Vector3(...targetPosition)
-    const startTime = Date.now()
-    
+    const startPosition = camera.position.clone();
+    const endPosition = new THREE.Vector3(...targetPosition);
+    const startTime = Date.now();
+
     function animate() {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
       // Smooth easing function
-      const eased = 1 - Math.pow(1 - progress, 3)
-      
-      camera.position.lerpVectors(startPosition, endPosition, eased)
-      
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      camera.position.lerpVectors(startPosition, endPosition, eased);
+
       if (progress < 1) {
-        requestAnimationFrame(animate)
+        requestAnimationFrame(animate);
       } else {
-        resolve()
+        resolve();
       }
     }
-    
-    animate()
-  })
+
+    animate();
+  });
 }

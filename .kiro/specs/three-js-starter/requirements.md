@@ -48,7 +48,7 @@ This document outlines the requirements for creating a minimal, production-ready
 #### Acceptance Criteria
 
 1. THE Scene Management System SHALL separate renderer creation into a dedicated module
-2. THE Scene Management System SHALL separate scene setup into a dedicated module  
+2. THE Scene Management System SHALL separate scene setup into a dedicated module
 3. THE Scene Management System SHALL separate camera configuration into a dedicated module
 4. THE Scene Management System SHALL provide a makeRenderer function that configures WebGL settings
 5. THE Scene Management System SHALL provide a makeScene function that creates a basic 3D scene with lighting

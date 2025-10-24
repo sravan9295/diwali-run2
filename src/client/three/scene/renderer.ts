@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import { RendererConfig } from '../types'
+import * as THREE from 'three';
+import { RendererConfig } from '../types';
 
 /**
  * Creates and configures a WebGL renderer with optimal settings
@@ -8,34 +8,34 @@ import { RendererConfig } from '../types'
  * @returns Configured WebGL renderer
  */
 export function makeRenderer(container: HTMLElement, config: RendererConfig): THREE.WebGLRenderer {
-  const canvas = container.querySelector('canvas') || document.createElement('canvas')
-  
+  const canvas = container.querySelector('canvas') || document.createElement('canvas');
+
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: config.antialias,
     alpha: config.alpha,
     powerPreference: config.powerPreference,
-  })
+  });
 
   // Cap pixel ratio for mobile performance
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, config.maxPixelRatio)
-  renderer.setPixelRatio(pixelRatio)
-  
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, config.maxPixelRatio);
+  renderer.setPixelRatio(pixelRatio);
+
   // Set initial size
-  const { clientWidth, clientHeight } = container
-  renderer.setSize(clientWidth, clientHeight)
-  
+  const { clientWidth, clientHeight } = container;
+  renderer.setSize(clientWidth, clientHeight);
+
   // Configure renderer settings
-  renderer.setClearColor(0x000000, 1)
-  renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
-  
+  renderer.setClearColor(0x000000, 1);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
   // Append canvas if not already in container
   if (!container.contains(canvas)) {
-    container.appendChild(canvas)
+    container.appendChild(canvas);
   }
-  
-  return renderer
+
+  return renderer;
 }
 
 /**
@@ -43,6 +43,6 @@ export function makeRenderer(container: HTMLElement, config: RendererConfig): TH
  * @param renderer - Renderer to dispose
  */
 export function disposeRenderer(renderer: THREE.WebGLRenderer): void {
-  renderer.dispose()
-  renderer.forceContextLoss()
+  renderer.dispose();
+  renderer.forceContextLoss();
 }

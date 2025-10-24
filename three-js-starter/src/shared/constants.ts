@@ -32,4 +32,4 @@ export const DEFAULT_CONFIG = {
     maxDeltaTime: 1 / 30, // Cap at 30fps minimum
     targetFPS: 60,
   },
-} as const;
+} as const

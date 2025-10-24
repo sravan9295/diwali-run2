@@ -20,8 +20,11 @@ export function TorusKnot({ position = [0, 0, 0], onClick }: TorusKnotProps) {
     // Handle click animation
     if (clicked) {
       const targetScale = meshRef.current.scale.x < 1.2 ? 1.2 : 1
-      meshRef.current.scale.lerp({ x: targetScale, y: targetScale, z: targetScale } as any, delta * 10)
-      
+      meshRef.current.scale.lerp(
+        { x: targetScale, y: targetScale, z: targetScale } as any,
+        delta * 10
+      )
+
       if (Math.abs(meshRef.current.scale.x - 1) < 0.01) {
         setClicked(false)
         meshRef.current.scale.set(1, 1, 1)
@@ -45,8 +48,8 @@ export function TorusKnot({ position = [0, 0, 0], onClick }: TorusKnotProps) {
       receiveShadow
     >
       <torusKnotGeometry args={[2, 0.6, 100, 16]} />
-      <meshPhongMaterial 
-        color={hovered ? '#00ff88' : '#0088ff'} 
+      <meshPhongMaterial
+        color={hovered ? '#00ff88' : '#0088ff'}
         shininess={100}
       />
     </mesh>

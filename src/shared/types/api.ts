@@ -1,18 +1,21 @@
-export type InitResponse = {
-  type: "init";
-  postId: string;
-  count: number;
-  username: string;
-};
+export interface HealthResponse {
+  status: string;
+  timestamp: string;
+  game: string;
+}
 
-export type IncrementResponse = {
-  type: "increment";
-  postId: string;
-  count: number;
-};
+export interface ScoreResponse {
+  highScore: number;
+  userId?: string;
+}
 
-export type DecrementResponse = {
-  type: "decrement";
-  postId: string;
-  count: number;
-};
+export interface SaveScoreRequest {
+  score: number;
+}
+
+export interface SaveScoreResponse {
+  newHighScore: boolean;
+  score: number;
+  highScore?: number;
+  previousHighScore?: number;
+}

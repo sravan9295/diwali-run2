@@ -1,11 +1,16 @@
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [],
   build: {
     outDir: '../../dist/client',
-    sourcemap: true,
-    chunkSizeWarningLimit: 1500,
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: './index.html'
+      }
+    }
   },
+  server: {
+    port: 3001
+  }
 });

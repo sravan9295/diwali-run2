@@ -26,7 +26,7 @@ export class ResizeHandler implements ResizeHandlerSystem {
       this.disconnect()
     }
 
-    this.resizeObserver = new ResizeObserver((entries) => {
+    this.resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         this.handleResize(entry)
       }
@@ -37,7 +37,10 @@ export class ResizeHandler implements ResizeHandlerSystem {
 
     // Add orientation change listener
     if (this.orientationChangeHandler) {
-      window.addEventListener('orientationchange', this.orientationChangeHandler)
+      window.addEventListener(
+        'orientationchange',
+        this.orientationChangeHandler
+      )
     }
   }
 
@@ -51,7 +54,10 @@ export class ResizeHandler implements ResizeHandlerSystem {
     }
 
     if (this.orientationChangeHandler) {
-      window.removeEventListener('orientationchange', this.orientationChangeHandler)
+      window.removeEventListener(
+        'orientationchange',
+        this.orientationChangeHandler
+      )
     }
 
     this.isObserving = false
@@ -74,10 +80,10 @@ export class ResizeHandler implements ResizeHandlerSystem {
 
     // Use contentBoxSize if available (more accurate)
     if (entry.contentBoxSize) {
-      const contentBoxSize = Array.isArray(entry.contentBoxSize) 
-        ? entry.contentBoxSize[0] 
+      const contentBoxSize = Array.isArray(entry.contentBoxSize)
+        ? entry.contentBoxSize[0]
         : entry.contentBoxSize
-      
+
       width = contentBoxSize.inlineSize
       height = contentBoxSize.blockSize
     } else {
@@ -112,14 +118,14 @@ export class ResizeHandler implements ResizeHandlerSystem {
       setTimeout(() => {
         const width = window.innerWidth
         const height = window.innerHeight
-        
+
         updateCameraAspect(this.camera, width, height)
         this.renderer.setSize(width, height)
-        
+
         if (this.onResize) {
           this.onResize(width, height)
         }
-        
+
         if (typeof __DEV__ !== 'undefined' && __DEV__) {
           console.log(`Orientation changed: ${width}x${height}`)
         }

@@ -13,24 +13,24 @@ graph TB
     A[Entry Point] --> B[Build System - Vite]
     B --> C[Development Server]
     B --> D[Production Build]
-    
+
     A --> E[Application Layer]
     E --> F[Vanilla Three.js Path]
     E --> G[React Three Fiber Path]
-    
+
     F --> H[Scene Management]
     F --> I[Render Loop]
     F --> J[Resize Handler]
-    
+
     G --> K[React Components]
     G --> L[Three.js Canvas]
     G --> M[React Hooks]
-    
+
     H --> N[WebGL Renderer]
     I --> N
     J --> N
     L --> N
-    
+
     O[Code Quality] --> P[ESLint]
     O --> Q[Prettier]
     O --> R[TypeScript]
@@ -120,14 +120,16 @@ interface ResizeHandlerSystem {
 ### Vanilla Three.js Components
 
 #### Renderer Module (`src/vanilla/scene/renderer.ts`)
+
 - **Purpose**: Creates and configures WebGL renderer with optimal settings
-- **Key Features**: 
+- **Key Features**:
   - Pixel ratio capping for mobile performance
   - WebGL context configuration
   - Canvas setup and DOM integration
 - **Interface**: `makeRenderer(container: HTMLElement, config: RendererConfig): THREE.WebGLRenderer`
 
 #### Scene Module (`src/vanilla/scene/scene.ts`)
+
 - **Purpose**: Creates 3D scene with lighting and example objects
 - **Key Features**:
   - Basic lighting setup (ambient + directional)
@@ -136,6 +138,7 @@ interface ResizeHandlerSystem {
 - **Interface**: `makeScene(config: SceneConfig): THREE.Scene`
 
 #### Camera Module (`src/vanilla/scene/camera.ts`)
+
 - **Purpose**: Configures perspective camera with responsive aspect ratio
 - **Key Features**:
   - Perspective camera setup
@@ -144,6 +147,7 @@ interface ResizeHandlerSystem {
 - **Interface**: `makeCamera(aspect: number): THREE.PerspectiveCamera`
 
 #### Render Loop System (`src/vanilla/systems/render-loop.ts`)
+
 - **Purpose**: Manages animation loop with performance optimizations
 - **Key Features**:
   - RequestAnimationFrame management
@@ -153,6 +157,7 @@ interface ResizeHandlerSystem {
 - **Interface**: Implements `RenderLoopSystem`
 
 #### Resize Handler System (`src/vanilla/systems/resize-handler.ts`)
+
 - **Purpose**: Handles viewport changes and device orientation
 - **Key Features**:
   - ResizeObserver integration
@@ -164,6 +169,7 @@ interface ResizeHandlerSystem {
 ### React Three Fiber Components
 
 #### App Component (`src/react/App.tsx`)
+
 - **Purpose**: Root React component with Canvas setup
 - **Key Features**:
   - Canvas configuration
@@ -171,6 +177,7 @@ interface ResizeHandlerSystem {
   - Error boundaries
 
 #### Scene Component (`src/react/components/Scene.tsx`)
+
 - **Purpose**: Declarative 3D scene using JSX
 - **Key Features**:
   - Lighting components
@@ -178,6 +185,7 @@ interface ResizeHandlerSystem {
   - Environment setup
 
 #### TorusKnot Component (`src/react/components/TorusKnot.tsx`)
+
 - **Purpose**: Example 3D object as React component
 - **Key Features**:
   - Animated rotation
@@ -230,11 +238,13 @@ interface AppState {
 ### Error Categories
 
 1. **WebGL Context Errors**
+
    - WebGL not supported
    - Context lost/restored
    - Shader compilation failures
 
 2. **Resource Loading Errors**
+
    - Texture loading failures
    - Model loading errors
    - Asset not found
@@ -309,9 +319,9 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    hmr: true
+    hmr: true,
   },
-  
+
   // Build optimization
   build: {
     target: 'es2020',
@@ -320,18 +330,18 @@ export default defineConfig({
       output: {
         manualChunks: {
           'three': ['three'],
-          'react': ['react', 'react-dom']
-        }
-      }
-    }
+          'react': ['react', 'react-dom'],
+        },
+      },
+    },
   },
-  
+
   // Plugin configuration
   plugins: [
     // TypeScript support
     // React support (conditional)
     // Asset handling
-  ]
+  ],
 });
 ```
 

@@ -16,9 +16,9 @@ export function useResize(element?: HTMLElement): ViewportSize {
 
   useEffect(() => {
     const targetElement = element || document.body
-    
+
     // ResizeObserver for better performance
-    const resizeObserver = new ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         let width: number
         let height: number
@@ -27,7 +27,7 @@ export function useResize(element?: HTMLElement): ViewportSize {
           const contentBoxSize = Array.isArray(entry.contentBoxSize)
             ? entry.contentBoxSize[0]
             : entry.contentBoxSize
-          
+
           width = contentBoxSize.inlineSize
           height = contentBoxSize.blockSize
         } else {
@@ -72,9 +72,13 @@ export function useIsMobile(): boolean {
 
   useEffect(() => {
     const checkIsMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera
-      const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i
-      setIsMobile(mobileRegex.test(userAgent.toLowerCase()) || window.innerWidth < 768)
+      const userAgent =
+        navigator.userAgent || navigator.vendor || (window as any).opera
+      const mobileRegex =
+        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i
+      setIsMobile(
+        mobileRegex.test(userAgent.toLowerCase()) || window.innerWidth < 768
+      )
     }
 
     checkIsMobile()
@@ -100,7 +104,9 @@ export function usePixelRatio(maxRatio: number = 2): number {
     }
 
     // Listen for pixel ratio changes (rare but possible)
-    const mediaQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
+    const mediaQuery = window.matchMedia(
+      `(resolution: ${window.devicePixelRatio}dppx)`
+    )
     mediaQuery.addEventListener('change', updatePixelRatio)
 
     return () => mediaQuery.removeEventListener('change', updatePixelRatio)

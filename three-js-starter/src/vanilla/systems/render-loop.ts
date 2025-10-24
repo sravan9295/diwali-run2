@@ -25,12 +25,12 @@ export class RenderLoop implements RenderLoopSystem {
    */
   start(): void {
     if (this.isRunning) return
-    
+
     this.isRunning = true
     this.lastTime = performance.now()
     this.fpsStartTime = this.lastTime
     this.frameCount = 0
-    
+
     this.animate()
   }
 
@@ -39,7 +39,7 @@ export class RenderLoop implements RenderLoopSystem {
    */
   stop(): void {
     if (!this.isRunning) return
-    
+
     this.isRunning = false
     if (this.animationId !== null) {
       cancelAnimationFrame(this.animationId)
@@ -68,24 +68,24 @@ export class RenderLoop implements RenderLoopSystem {
     if (!this.isRunning) return
 
     this.animationId = requestAnimationFrame(this.animate)
-    
+
     const currentTime = performance.now()
     let deltaTime = (currentTime - this.lastTime) / 1000
-    
+
     // Clamp delta time to prevent animation spikes on slow frames
     deltaTime = Math.min(deltaTime, this.config.maxDeltaTime)
-    
+
     // Update FPS counter
     this.updateFPS(currentTime)
-    
+
     // Call update callback if provided
     if (this.onUpdate) {
       this.onUpdate(deltaTime)
     }
-    
+
     // Render the scene
     this.renderer.render(this.scene, this.camera)
-    
+
     this.lastTime = currentTime
   }
 
@@ -94,17 +94,20 @@ export class RenderLoop implements RenderLoopSystem {
    */
   private updateFPS(currentTime: number): void {
     this.frameCount++
-    
+
     const elapsed = currentTime - this.fpsStartTime
-    if (elapsed >= 1000) { // Update FPS every second
+    if (elapsed >= 1000) {
+      // Update FPS every second
       this.currentFPS = Math.round((this.frameCount * 1000) / elapsed)
       this.frameCount = 0
       this.fpsStartTime = currentTime
-      
+
       // Log performance warnings in development
       if (typeof __DEV__ !== 'undefined' && __DEV__) {
         if (this.currentFPS < this.config.targetFPS * 0.8) {
-          console.warn(`Low FPS detected: ${this.currentFPS}fps (target: ${this.config.targetFPS}fps)`)
+          console.warn(
+            `Low FPS detected: ${this.currentFPS}fps (target: ${this.config.targetFPS}fps)`
+          )
         }
       }
     }

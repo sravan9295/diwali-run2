@@ -10,7 +10,9 @@ export function disposeGeometry(geometry: THREE.BufferGeometry): void {
 /**
  * Disposes of Three.js material resources
  */
-export function disposeMaterial(material: THREE.Material | THREE.Material[]): void {
+export function disposeMaterial(
+  material: THREE.Material | THREE.Material[]
+): void {
   if (Array.isArray(material)) {
     material.forEach(mat => mat.dispose())
   } else {
@@ -29,18 +31,18 @@ export function disposeTexture(texture: THREE.Texture): void {
  * Recursively disposes of all resources in a Three.js object
  */
 export function disposeObject(object: THREE.Object3D): void {
-  object.traverse((child) => {
+  object.traverse(child => {
     if (child instanceof THREE.Mesh) {
       if (child.geometry) {
         disposeGeometry(child.geometry)
       }
-      
+
       if (child.material) {
         disposeMaterial(child.material)
-        
+
         // Dispose textures if they exist
         if (child.material instanceof THREE.Material) {
-          Object.values(child.material).forEach((value) => {
+          Object.values(child.material).forEach(value => {
             if (value instanceof THREE.Texture) {
               disposeTexture(value)
             }
@@ -49,7 +51,7 @@ export function disposeObject(object: THREE.Object3D): void {
       }
     }
   })
-  
+
   // Remove from parent
   if (object.parent) {
     object.parent.remove(object)
@@ -60,12 +62,12 @@ export function disposeObject(object: THREE.Object3D): void {
  * Disposes of an entire Three.js scene
  */
 export function disposeScene(scene: THREE.Scene): void {
-  scene.traverse((child) => {
+  scene.traverse(child => {
     if (child instanceof THREE.Mesh) {
       disposeObject(child)
     }
   })
-  
+
   // Clear the scene
   scene.clear()
 }
@@ -83,14 +85,14 @@ export function removeAllEventListeners(element: HTMLElement): void {
  */
 export class HMRCleanup {
   private cleanupFunctions: (() => void)[] = []
-  
+
   /**
    * Adds a cleanup function to be called on HMR
    */
   add(cleanupFn: () => void): void {
     this.cleanupFunctions.push(cleanupFn)
   }
-  
+
   /**
    * Executes all cleanup functions
    */
@@ -127,25 +129,25 @@ export function setupHMRCleanup(): void {
  */
 export class MemoryMonitor {
   private intervalId: number | null = null
-  
+
   /**
    * Starts monitoring memory usage
    */
   start(intervalMs: number = 5000): void {
     if (this.intervalId !== null) return
-    
+
     this.intervalId = window.setInterval(() => {
       if ('memory' in performance) {
         const memory = (performance as any).memory
         console.log('Memory usage:', {
           used: Math.round(memory.usedJSHeapSize / 1024 / 1024) + 'MB',
           total: Math.round(memory.totalJSHeapSize / 1024 / 1024) + 'MB',
-          limit: Math.round(memory.jsHeapSizeLimit / 1024 / 1024) + 'MB'
+          limit: Math.round(memory.jsHeapSizeLimit / 1024 / 1024) + 'MB',
         })
       }
     }, intervalMs)
   }
-  
+
   /**
    * Stops monitoring memory usage
    */

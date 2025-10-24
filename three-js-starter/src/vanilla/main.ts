@@ -28,21 +28,21 @@ class ThreeJSApp {
     try {
       // Setup HMR cleanup
       setupHMRCleanup()
-      
+
       // Create renderer
       this.renderer = makeRenderer(container, DEFAULT_CONFIG.renderer)
       hmrCleanup.add(() => this.renderer?.dispose())
-      
+
       // Create scene
       this.scene = makeScene(DEFAULT_CONFIG.scene)
-      
+
       // Create camera
       const aspect = container.clientWidth / container.clientHeight
       this.camera = makeCamera(aspect, DEFAULT_CONFIG.camera)
-      
+
       // Get main interactive object
       this.mainObject = getMainObject(this.scene)
-      
+
       // Create render loop with update callback
       this.renderLoop = createRenderLoop(
         this.renderer,
@@ -52,7 +52,7 @@ class ThreeJSApp {
         this.onUpdate.bind(this)
       )
       hmrCleanup.add(() => this.renderLoop?.dispose())
-      
+
       // Create resize handler
       this.resizeHandler = createResizeHandler(
         this.renderer,
@@ -61,44 +61,43 @@ class ThreeJSApp {
       )
       this.resizeHandler.observe(container)
       hmrCleanup.add(() => this.resizeHandler?.dispose())
-      
+
       // Setup interaction
       this.setupInteraction(container)
-      
+
       // Start render loop
       this.renderLoop.start()
-      
+
       // Start memory monitoring in development
       if (typeof __DEV__ !== 'undefined' && __DEV__) {
         memoryMonitor.start()
         hmrCleanup.add(() => memoryMonitor.stop())
       }
-      
+
       console.log('Three.js application initialized successfully')
-      
     } catch (error) {
       console.error('Failed to initialize Three.js application:', error)
       throw error
     }
   }
-  
+
   /**
    * Update callback called on each frame
    */
   private onUpdate(_deltaTime: number): void {
     if (!this.mainObject) return
-    
+
     // Rotate the main object
     this.mainObject.rotation.x += 0.01
     this.mainObject.rotation.y += 0.02
-    
+
     // Handle bounce animation
     if (this.scaleVelocity !== 0) {
       const currentScale = this.mainObject.scale.x
       const newScale = currentScale + this.scaleVelocity
-      
+
       this.mainObject.scale.set(newScale, newScale, newScale)
-      
+
       if (newScale >= 1.2) {
         this.scaleVelocity = -0.04
       }
@@ -108,53 +107,57 @@ class ThreeJSApp {
       }
     }
   }
-  
+
   /**
    * Resize callback
    */
   private onResize(width: number, height: number): void {
     console.log(`Canvas resized to ${width}x${height}`)
   }
-  
+
   /**
    * Sets up mouse/touch interaction
    */
   private setupInteraction(container: HTMLElement): void {
     const handleClick = (event: PointerEvent) => {
       if (!this.camera || !this.scene || !this.mainObject) return
-      
+
       // Calculate mouse position in normalized device coordinates
       const rect = container.getBoundingClientRect()
       this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
       this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
-      
+
       // Perform raycasting
       this.raycaster.setFromCamera(this.mouse, this.camera)
       const intersects = this.raycaster.intersectObject(this.mainObject)
-      
+
       if (intersects.length > 0) {
         // Start bounce animation
         this.scaleVelocity = 0.05
         console.log('TorusKnot clicked!')
-        
+
         // Dispatch custom event for external handling
-        container.dispatchEvent(new CustomEvent('objectClicked', {
-          detail: { object: this.mainObject, intersection: intersects[0] }
-        }))
+        container.dispatchEvent(
+          new CustomEvent('objectClicked', {
+            detail: { object: this.mainObject, intersection: intersects[0] },
+          })
+        )
       }
     }
-    
+
     container.addEventListener('pointerdown', handleClick)
-    hmrCleanup.add(() => container.removeEventListener('pointerdown', handleClick))
+    hmrCleanup.add(() =>
+      container.removeEventListener('pointerdown', handleClick)
+    )
   }
-  
+
   /**
    * Gets the current FPS
    */
   getFPS(): number {
     return this.renderLoop?.getFPS() || 0
   }
-  
+
   /**
    * Disposes of the application and cleans up resources
    */
@@ -172,10 +175,10 @@ function initApp(): void {
     console.error('Container element #app not found')
     return
   }
-  
+
   const app = new ThreeJSApp()
   app.init(container).catch(console.error)
-  
+
   // Make app globally available for debugging
   if (typeof __DEV__ !== 'undefined' && __DEV__) {
     ;(window as any).threeApp = app

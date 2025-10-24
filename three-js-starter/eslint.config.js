@@ -11,22 +11,25 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json'
-      }
+        project: './tsconfig.json',
+      },
     },
     plugins: {
-      '@typescript-eslint': tseslint
+      '@typescript-eslint': tseslint,
     },
     rules: {
       ...tseslint.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/prefer-const': 'error',
       'no-console': 'warn',
-      'prefer-const': 'error'
-    }
+      'prefer-const': 'error',
+    },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', '*.config.js']
-  }
+    ignores: ['dist/**', 'node_modules/**', '*.config.js'],
+  },
 ]

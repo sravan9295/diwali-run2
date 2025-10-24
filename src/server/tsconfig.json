@@ -1,19 +1,18 @@
-// TypeScript config for all Devvit server code.
 {
-  "extends": "../../tools/tsconfig-base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["ES2023"],
-
-    "types": ["node"],
-
-    "rootDir": ".",
-
-    "outDir": "../../dist/types/server",
-
-    "tsBuildInfoFile": "../../dist/tsconfig.tsbuildinfo"
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  // https://github.com/Microsoft/TypeScript/issues/25636
-  "include": ["**/*", "**/*.json", "../../package.json"],
-  "exclude": ["**/*.test.ts"],
+  "include": ["**/*"],
   "references": [{ "path": "../shared" }]
 }

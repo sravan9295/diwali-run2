@@ -1,6 +1,7 @@
 # Technology Stack
 
 ## Core Technologies
+
 - **Devvit**: Reddit's developer platform for building apps
 - **Three.js**: 3D graphics library for WebGL rendering
 - **TypeScript**: Primary language with strict type checking
@@ -9,12 +10,14 @@
 - **Redis**: Data persistence layer (via Devvit)
 
 ## Build System
+
 - **Vite** handles compilation for both client and server
 - **TypeScript** project references for modular compilation
 - **ESLint** with TypeScript rules for code quality
 - **Prettier** for consistent code formatting
 
 ## Common Commands
+
 ```bash
 # Development (runs client, server, and devvit in parallel)
 npm run dev
@@ -37,11 +40,13 @@ npm run build:server
 ```
 
 ## Development Workflow
+
 - Use `npm run dev` for live development with hot reloading
 - Client builds to `dist/client` with HTML entry point
 - Server builds to `dist/server` as CommonJS module
 - Devvit playtest provides live Reddit integration testing
 
 ## Dependencies
+
 - **Runtime**: @devvit/web, three, express
 - **Development**: TypeScript, ESLint, Prettier, Vite, Vitest

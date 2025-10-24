@@ -9,12 +9,12 @@ export const createPost = async () => {
   return await reddit.submitCustomPost({
     splash: {
       // Splash Screen Configuration
-      appDisplayName: 'diwali-run',
+      appDisplayName: '🏃‍♂️ 3D Runner Game',
       backgroundUri: 'default-splash.png',
-      buttonLabel: 'Tap to Start',
-      description: 'An exciting interactive experience',
-      entryUri: 'index.html',
-      heading: 'Welcome to the Game!',
+      buttonLabel: 'Play Game',
+      description:
+        'Dodge obstacles, collect coins, and set new high scores in this thrilling 3D endless runner!',
+      heading: 'Ready to Run?',
       appIconUri: 'default-icon.png',
     },
     postData: {
